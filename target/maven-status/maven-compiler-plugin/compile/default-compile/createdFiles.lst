@@ -8,6 +8,7 @@ com/endor/EncryptionServlet.class
 com/endor/GetInputStreamTest.class
 com/endor/RecordServlet.class
 com/endor/ExtraServlet.class
+com/endor/stringsub.class
 com/endor/Deserialize1.class
 com/endor/BotTest.class
 com/endor/AsyncServlet.class
