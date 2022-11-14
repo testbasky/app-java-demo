@@ -29,10 +29,10 @@ public class NewSQLExitServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        connectionUrl =System.getProperty("prismo_connection_url", "jdbc:oracle:thin:@10.0.22.108:1521:XE");
-        dbUser =System.getProperty("prismo_db_user", "sys as sysdba");
-        dbPassword =System.getProperty("prismo_db_password", "Psmo0601");
-        dbType =System.getProperty("prismo_db_type", DB_TYPE_ORACLE);
+        connectionUrl =System.getProperty("endor_connection_url", "jdbc:oracle:thin:@10.0.22.108:1521:XE");
+        dbUser =System.getProperty("endor_db_user", "sys as sysdba");
+        dbPassword =System.getProperty("endor_db_password", "Psmo0601");
+        dbType =System.getProperty("endor_db_type", DB_TYPE_ORACLE);
 
     }
 
@@ -148,10 +148,10 @@ public class NewSQLExitServlet extends HttpServlet {
     }
 
     /** Shiva use the following java system properties instead of new connection function.
-        -Dprismo_connection_url="jdbc:postgresql://localhost:5432/sqlinject?sslmode=disable"
-        -Dprismo_db_user="postgres"
-        -Dprismo_db_password=""Psqlpsmo@1"
-        -Dprismo_db_type="Postgress"
+        -Dendor_connection_url="jdbc:postgresql://localhost:5432/sqlinject?sslmode=disable"
+        -Dendor_db_user="postgres"
+        -Dendor_db_password=""Psqlpsmo@1"
+        -Dendor_db_type="Postgress"
      */
     private Connection connectpsql() {
         Connection conn = null;
@@ -172,10 +172,10 @@ public class NewSQLExitServlet extends HttpServlet {
 
 
     /** Shiva use java system properties instead of new connection function.
-     -Dprismo_connection_url="jdbc:postgresql://localhost:5432/sqlinject?sslmode=disable"
-     -Dprismo_db_user="postgres"
-     -Dprismo_db_password=""Psqlpsmo@1"
-     -Dprismo_db_type="Postgress"
+     -Dendor_connection_url="jdbc:postgresql://localhost:5432/sqlinject?sslmode=disable"
+     -Dendor_db_user="postgres"
+     -Dendor_db_password=""Psqlpsmo@1"
+     -Dendor_db_type="Postgress"
      */
 
     private Connection connect() {
