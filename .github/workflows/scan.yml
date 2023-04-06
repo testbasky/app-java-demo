@@ -19,9 +19,9 @@ jobs:
       uses: actions/checkout@v3
     - name: Setup Java
       uses: actions/setup-java@v3
-        with:
-          distribution: 'microsoft'
-          java-version: '17'
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
     - name: Compile Package
       run: mvn clean install
     - name: Run endorctl
