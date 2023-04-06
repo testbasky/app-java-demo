@@ -10,7 +10,6 @@ jobs:
   scan:
     permissions:
       security-events: write
-      actions: read
       contents: read
       id-token: write
     runs-on: ubuntu-latest
