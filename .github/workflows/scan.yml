@@ -8,10 +8,20 @@ jobs:
       security-events: write
       actions: read
       contents: read
+      id-token: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
+
+    - name: Run endorctl
+      uses: endorlabs/github-action@963efa3820b9ec23434220f884ed2bc27fe6f736
+      with:
+        namespace: "diamantis"
+        api: "https://api.staging.endorlabs.com"
+        enable_github_action_token: "true"
+        sarif_output_file: findings.sarif
+
     - name: Upload SARIF to github
       uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
       with:
