@@ -15,8 +15,17 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
+    
     - name: Checkout Repository
       uses: actions/checkout@v3
+      
+    - name: Setup Java
+      uses: actions/setup-java@v3
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+      - name: Compile Package
+        run: mvn clean install
 
     - name: Run endorctl
       uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
