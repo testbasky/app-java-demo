@@ -1,4 +1,4 @@
-name: Scan
+name: Endor Labs Scan
 
 on:
   push:
@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+      inputs:
+        tenant_name:
+          description: "Enter your Endor Labs tenant name:"
+          required: true
+          type: string
 
 jobs:
   scan:
@@ -27,9 +32,7 @@ jobs:
     - name: Run endorctl
       uses: endorlabs/github-action@b51bd06466b545f01a6ac788e3e1147695d3936c
       with:
-        namespace: "demo"
-        api: "https://api.staging.endorlabs.com"
-        enable_github_action_token: "true"
+        namespace: "${{ github.event.inputs.tenant_name }}"
         sarif_file: findings.sarif
     - name: Upload SARIF to github
       uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
