@@ -25,16 +25,17 @@ jobs:
          echo ARTIFACT="$SIGNING_TARGET" >> $GITHUB_ENV
 
       - name: Container sign
-        uses: endorlabs/github-action/sign@1.1.2
+        uses: endorlabs/github-action/sign@v1.1.2
         with:
           namespace: "yolo"
           artifact_name: ${{ env.ARTIFACT }}
 
-      - name: Run Tests
+      - name: Run Java Tests
         run: |
           mvn test
+          
       - name: Endor Labs Dependency Scan
-        uses: endorlabs/github-action@1.1.2
+        uses: endorlabs/github-action@v1.1.2
         with:
           namespace: ${{ github.event.inputs.tenant_name }}
           scan_summary_output_type: "table"
@@ -48,7 +49,7 @@ jobs:
         run: python3 -m pip install semgrep && semgrep scan
 
       - name: Container verify
-        uses: endorlabs/github-action/verify@1.1.2
+        uses: endorlabs/github-action/verify@v1.1.2
         with:
           namespace: "yolo"
           artifact_name: ${{ env.ARTIFACT }}
