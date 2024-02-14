@@ -11,6 +11,7 @@ jobs:
       id-token: write
       contents: read
     steps:
+    
       - name: Checkout code
         uses: actions/checkout@v3
         
@@ -27,7 +28,7 @@ jobs:
          SIGNING_TARGET="$IMAGE_NAME"@"$IMAGE_SHA"
          echo ARTIFACT="$SIGNING_TARGET" >> $GITHUB_ENV
 
-      - name: Container sign
+      - name: Container Sign
         uses: endorlabs/github-action/sign@736c93ea52b002f2ac229aaeb273b102cbf6fe12
         with:
           namespace: "yolo"
@@ -36,10 +37,11 @@ jobs:
       - name: Run Tests
         run: |
           mvn test
+          
       - name: Endor Labs Dependency Scan
         uses: endorlabs/github-action@v1.1.2
         with:
-          namespace: ${{ github.event.inputs.tenant_name }}
+          namespace: "yolo"
           scan_summary_output_type: "table"
           pr: "false"
           enable_github_action_token: "true"
