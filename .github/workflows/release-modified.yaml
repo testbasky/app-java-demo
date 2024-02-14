@@ -63,13 +63,16 @@ jobs:
 
       - name: Get Image Digest to Verify
         run: |
-         VERIFY_ARTIFACT=$(docker inspect jscott932/app-java-demo:latest | jq -r '.[].Id')
+         VERIFY_SHA=$(docker inspect jscott932/app-java-demo:latest | jq -r '.[].Id')
+         VERIFY_IMAGE_NAME=jscott932/app-java-demo
+         VERIFICATION_TARGET="$VERIFY_IMAGE_NAME"@"$VERIFY_SHA"
+         echo VERIFY_ARTIFACT="$VERIFY_TARGET" >> $GITHUB_ENV
          
       - name: Container verify
         uses: endorlabs/github-action/verify@736c93ea52b002f2ac229aaeb273b102cbf6fe12
         with:
           namespace: "yolo"
-          artifact_name: ${{ env.VERIFY_ARTIFACT }}
+          artifact_name: ${{ env.VERIFY_TARGET }}
 
       - name: Push to Docker Hub
         run: docker push jscott932/app-java-demo:latest
