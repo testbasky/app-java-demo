@@ -19,21 +19,20 @@ jobs:
           
       - name: Get Image Digest to Sign
         run: |
-         IMAGE_SHA=$(docker inspect app-java-demo:1.0.0 | jq -r '.[].Id')
+         IMAGE_SHA=$(docker inspect jscott932/app-java-demo:latest | jq -r '.[].Id')
          IMAGE_NAME=app-java-demo
          SIGNING_TARGET="$IMAGE_NAME"@"$IMAGE_SHA"
          echo ARTIFACT="$SIGNING_TARGET" >> $GITHUB_ENV
 
       - name: Container sign
-        uses: endorlabs/github-action/sign@v1.1.2
+        uses: endorlabs/github-action/sign@736c93ea52b002f2ac229aaeb273b102cbf6fe12
         with:
           namespace: "yolo"
           artifact_name: ${{ env.ARTIFACT }}
 
-      - name: Run Java Tests
+      - name: Run Tests
         run: |
           mvn test
-          
       - name: Endor Labs Dependency Scan
         uses: endorlabs/github-action@v1.1.2
         with:
@@ -49,7 +48,7 @@ jobs:
         run: python3 -m pip install semgrep && semgrep scan
 
       - name: Container verify
-        uses: endorlabs/github-action/verify@v1.1.2
+        uses: endorlabs/github-action/verify@736c93ea52b002f2ac229aaeb273b102cbf6fe12
         with:
           namespace: "yolo"
           artifact_name: ${{ env.ARTIFACT }}
