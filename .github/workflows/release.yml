@@ -20,7 +20,7 @@ jobs:
       - name: Get Image Digest to Sign
         run: |
          IMAGE_SHA=$(docker inspect jscott932/app-java-demo:latest | jq -r '.[].Id')
-         IMAGE_NAME=app-java-demo
+         IMAGE_NAME=jscott932/app-java-demo
          SIGNING_TARGET="$IMAGE_NAME"@"$IMAGE_SHA"
          echo ARTIFACT="$SIGNING_TARGET" >> $GITHUB_ENV
 
