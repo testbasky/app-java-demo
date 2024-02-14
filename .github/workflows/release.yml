@@ -62,7 +62,7 @@ jobs:
         run: |
          VERIFY_SHA=$(docker inspect jscott932/app-java-demo:latest | jq -r '.[].Id')
          VERIFY_IMAGE_NAME=jscott932/app-java-demo
-         VERIFICATION_TARGET="$VERIFY_IMAGE_NAME"@"$VERIFY_SHA"
+         VERIFY_TARGET="$VERIFY_IMAGE_NAME"@"$VERIFY_SHA"
          echo VERIFY_ARTIFACT="$VERIFY_TARGET" >> $GITHUB_ENV
          
       - name: Container verify
