@@ -1,4 +1,4 @@
-name: Run Semgrep
+name: Run Scorecard
 
 on:
   workflow_dispatch:
