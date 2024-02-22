@@ -5,7 +5,7 @@ on:
 
 jobs:
   release:
-    name: Run Semgrep
+    name: Run Trufflehog
     runs-on: ubuntu-latest
     permissions: read-all
     steps:
