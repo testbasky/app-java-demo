@@ -2,7 +2,8 @@ name: Release Workflow
 
 on:
   workflow_dispatch:
-
+  push: 
+  
 jobs:
   release:
     name: Build and Sign
