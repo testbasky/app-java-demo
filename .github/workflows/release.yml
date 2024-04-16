@@ -70,7 +70,7 @@ jobs:
       - name: Container verify
         uses: endorlabs/github-action/verify@main
         with:
-          namespace: "yolo"
+          namespace: "demo"
           artifact_name: ${{ env.VERIFY_ARTIFACT }}
           certificate_oidc_issuer: "https://token.actions.githubusercontent.com"
 
