@@ -40,7 +40,7 @@ jobs:
           mvn test
           
       - name: Endor Labs Dependency Scan
-        uses: endorlabs/github-action@v1.1.2
+        uses: endorlabs/github-action@main
         with:
           namespace: "yolo"
           scan_summary_output_type: "table"
