@@ -32,7 +32,7 @@ jobs:
       - name: Container Sign
         uses: endorlabs/github-action/sign@main
         with:
-          namespace: "yolo"
+          namespace: "demo"
           artifact_name: ${{ env.ARTIFACT }}
 
       - name: Run Tests
@@ -42,7 +42,7 @@ jobs:
       - name: Endor Labs Scan
         uses: endorlabs/github-action@main
         with:
-          namespace: "yolo"
+          namespace: "demo"
           scan_summary_output_type: "table"
           pr: "false"
           enable_github_action_token: "true"
