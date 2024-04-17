@@ -85,6 +85,7 @@ jobs:
           pr: "false"
           enable_github_action_token: "true"
           scan_container: true
+          scan_dependencies: false
           image: jscott932/app-java-demo:latest
-          project: container-app-java-demo
+          project_name: container-app-java-demo
           
