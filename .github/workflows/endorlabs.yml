@@ -1,4 +1,4 @@
-name: Endor Labs Scan
+name: Endor Labs Scan Test
 on:
   workflow_dispatch:
     inputs:
@@ -52,4 +52,4 @@ jobs:
             scan_dependencies: "true"
             scan_secrets: "true"
             scan_git_logs: "true"
-            additional_args: "--as-default-branch --api=${{ github.event.inputs.api }}"
+            additional_args: "--as-default-branch --api=${{ github.event.inputs.api }} >> json.txt & cat json.txt"
