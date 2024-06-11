@@ -30,7 +30,7 @@ jobs:
             exit 1;
           fi
           chmod +x ./endorctl
-          ./endorctl scan --container=jscott932/app-java-demo:latest --path=./
+          ./endorctl scan --container=jscott932/app-java-demo:latest --path=./ --enable-github-action-token=true -n demo -a https://api.staging.endorlabs.com
           
       - name: Get Image Digest to Sign
         run: |
