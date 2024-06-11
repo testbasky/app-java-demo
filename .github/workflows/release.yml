@@ -18,17 +18,6 @@ jobs:
       - name: Build JAR
         run: mvn clean install -Dskiptests=true
 
-      - name: Endor Labs Scan Dependencies
-        run: |
-          curl https://api.endorlabs.com/download/latest/endorctl_linux_amd64 -o endorctl
-          echo "$(curl -s https://api.endorlabs.com/sha/latest/endorctl_linux_amd64)  endorctl" | sha256sum -c;
-            if [ $? -ne 0 ]; then 
-            echo "Integrity check failed"; 
-            exit 1;
-          fi
-          chmod +x ./endorctl
-          ./endorctl scan --dependencies --secrets --git-logs --tools --enable-github-action-token=true -n demo -a https://api.staging.endorlabs.com
-
       - name: Create container
         run: docker build -t jscott932/app-java-demo:latest .
 
@@ -40,23 +29,26 @@ jobs:
          echo ARTIFACT="$SIGNING_TARGET" >> $GITHUB_ENV
 
       - name: Container Sign
-        uses: endorlabs/github-action/sign@main
+        uses: endorlabs/github-action/sign@containers
         with:
           api: https://api.staging.endorlabs.com
           namespace: "demo"
           artifact_name: ${{ env.ARTIFACT }}
 
       - name: Endor Labs Scan
-        run: |
-          curl https://api.endorlabs.com/download/latest/endorctl_linux_amd64 -o endorctl
-          echo "$(curl -s https://api.endorlabs.com/sha/latest/endorctl_linux_amd64)  endorctl" | sha256sum -c;
-            if [ $? -ne 0 ]; then 
-            echo "Integrity check failed"; 
-            exit 1;
-          fi
-          chmod +x ./endorctl
-          ./endorctl scan --container=jscott932/app-java-demo:latest --path=./ --enable-github-action-token=true -n demo -a https://api.staging.endorlabs.com
-
+        uses: endorlabs/github-action@containers
+        with:
+          namespace: "demo"
+          api: https://api.staging.endorlabs.com
+          scan_summary_output_type: "table"
+          pr: "false"
+          enable_github_action_token: "true"
+          scan_dependencies: "true"
+          scan_secrets: "true"
+          scan_git_logs: "true"
+          scan_container: "true"
+          image: "jscott932/app-java-demo:latest"
+          
       - name: Get Image Digest to Verify
         run: |
          VERIFY_SHA=$(docker inspect jscott932/app-java-demo:latest | jq -r '.[].Id')
@@ -65,7 +57,7 @@ jobs:
          echo VERIFY_ARTIFACT="$VERIFY_TARGET" >> $GITHUB_ENV
          
       - name: Container verify
-        uses: endorlabs/github-action/verify@main
+        uses: endorlabs/github-action/verify@containers
         with:
           namespace: "demo"
           api: https://api.staging.endorlabs.com
