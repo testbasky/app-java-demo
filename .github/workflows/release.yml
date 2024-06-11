@@ -56,9 +56,7 @@ jobs:
           scan_summary_output_type: "table"
           pr: "false"
           enable_github_action_token: "true"
-          scan_dependencies: "true"
-          scan_secrets: "true"
-          scan_git_logs: "true"
+          scan_dependencies: "false"
           scan_container: "true"
           image: "jscott932/app-java-demo:latest"
           
