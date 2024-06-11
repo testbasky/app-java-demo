@@ -18,6 +18,17 @@ jobs:
       - name: Build JAR
         run: mvn clean install -Dskiptests=true
 
+      - name: Endor Labs Scan Dependencies
+        run: |
+          curl https://api.endorlabs.com/download/latest/endorctl_linux_amd64 -o endorctl
+          echo "$(curl -s https://api.endorlabs.com/sha/latest/endorctl_linux_amd64)  endorctl" | sha256sum -c;
+            if [ $? -ne 0 ]; then 
+            echo "Integrity check failed"; 
+            exit 1;
+          fi
+          chmod +x ./endorctl
+          ./endorctl scan --dependencies --secrets --git-logs --tools --enable-github-action-token=true -n demo -a https://api.staging.endorlabs.com
+
       - name: Create container
         run: docker build -t jscott932/app-java-demo:latest .
 
@@ -44,7 +55,7 @@ jobs:
             exit 1;
           fi
           chmod +x ./endorctl
-          ./endorctl scan --container=jscott932/app-java-demo:latest --dependencies --secrets --git-logs --tools --path=./ --enable-github-action-token=true -n demo -a https://api.staging.endorlabs.com
+          ./endorctl scan --container=jscott932/app-java-demo:latest --path=./ --enable-github-action-token=true -n demo -a https://api.staging.endorlabs.com
 
       - name: Get Image Digest to Verify
         run: |
