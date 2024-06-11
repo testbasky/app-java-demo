@@ -18,6 +18,19 @@ jobs:
       - name: Build JAR
         run: mvn clean install -Dskiptests=true
 
+      
+      - name: Endor Labs Scan
+        uses: endorlabs/github-action@containers
+        with:
+          namespace: "demo"
+          api: https://api.staging.endorlabs.com
+          scan_summary_output_type: "table"
+          pr: "false"
+          enable_github_action_token: "true"
+          scan_dependencies: "true"
+          scan_secrets: "true"
+          scan_git_logs: "true"
+
       - name: Create container
         run: docker build -t jscott932/app-java-demo:latest .
 
