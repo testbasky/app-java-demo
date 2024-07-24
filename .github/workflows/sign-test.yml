@@ -19,7 +19,7 @@ jobs:
 
       
       - name: Endor Labs Scan
-        uses: endorlabs/github-action@containers
+        uses: endorlabs/github-action@main
         with:
           namespace: "demo"
           api: https://api.staging.endorlabs.com
@@ -48,7 +48,7 @@ jobs:
           artifact_name: ${{ env.ARTIFACT }}
 
       - name: Endor Labs Scan
-        uses: endorlabs/github-action@containers
+        uses: endorlabs/github-action@main
         with:
           namespace: "demo"
           api: https://api.staging.endorlabs.com
@@ -67,7 +67,7 @@ jobs:
          echo VERIFY_ARTIFACT="$VERIFY_TARGET" >> $GITHUB_ENV
          
       - name: Container verify
-        uses: endorlabs/github-action/verify@containers
+        uses: endorlabs/github-action/verify@main
         with:
           namespace: "demo"
           api: https://api.staging.endorlabs.com
