@@ -167,4 +167,7 @@ public class AppServlet extends javax.servlet.http.HttpServlet {
         }
 
     }
+        public static void main(String... args) {
+        System.out.println("Welocome to the java app");
+    } 
 }

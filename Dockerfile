@@ -7,6 +7,7 @@ COPY . .
 
 # Build the Maven project
 RUN mvn clean install
+RUN mvn dependency:copy-dependencies
 
 # Use a smaller image for deployment
 FROM openjdk:17-slim
@@ -16,6 +17,7 @@ WORKDIR /app
 
 # Copy the built artifact from the build stage
 COPY --from=build /app/target/endor-java-webapp-demo.jar .
+COPY --from=build /app/target/dependency dependency/
 
 # Expose any necessary ports
 EXPOSE 443
