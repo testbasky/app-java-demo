@@ -41,7 +41,7 @@ jobs:
          echo ARTIFACT="$SIGNING_TARGET" >> $GITHUB_ENV
 
       - name: Container Sign
-        uses: endorlabs/github-action/sign@containers
+        uses: endorlabs/github-action/sign@main
         with:
           api: https://api.staging.endorlabs.com
           namespace: "demo"
