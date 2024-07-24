@@ -1,5 +1,4 @@
-name: Release Workflow
-
+name: Container Signing Test
 on:
   workflow_dispatch:
   push: 
