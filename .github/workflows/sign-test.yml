@@ -52,7 +52,7 @@ jobs:
         run: |
          IMAGE_SHA=$(docker inspect jscott932/app-java-demo:latest | jq -r '.[].Id')
          IMAGE_NAME=jscott932/app-java-demo
-         SIGNING_TARGET="$IMAGE_NAME"@latest
+         SIGNING_TARGET="$IMAGE_NAME"@"$IMAGE_SHA"
          echo ARTIFACT="$SIGNING_TARGET" >> $GITHUB_ENV
 
       - name: Container Sign
