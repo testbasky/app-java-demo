@@ -33,7 +33,7 @@ jobs:
         run: mvn clean install -Dskiptests=true
 
       
-      - name: Endor Labs Scan
+      - name: Endor Labs Code Scan
         uses: endorlabs/github-action@main
         with:
           namespace: ${{ inputs.namespace }}
@@ -62,7 +62,7 @@ jobs:
           api: ${{ inputs.api }}
           artifact_name: ${{ env.ARTIFACT }}
 
-      - name: Endor Labs Scan
+      - name: Endor Labs Container Scan
         uses: endorlabs/github-action@main
         with:
           namespace: ${{ inputs.namespace }}
