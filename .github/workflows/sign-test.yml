@@ -58,8 +58,8 @@ jobs:
       - name: Container Sign
         uses: endorlabs/github-action/sign@main
         with:
-          api: https://api.staging.endorlabs.com
-          namespace: "demo"
+          namespace: ${{ env.namespace }}
+          api: ${{ env.api }}
           artifact_name: ${{ env.ARTIFACT }}
 
       - name: Endor Labs Scan
