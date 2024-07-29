@@ -16,7 +16,6 @@ on:
         options:
         - https://api.staging.endorlabs.com
         - https://api.endorlabs.com        
-  push: 
   
 jobs:
   release:
