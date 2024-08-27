@@ -2,8 +2,20 @@ name: Release Workflow
 
 on:
   workflow_dispatch:
-  push: 
-  
+    inputs:
+      api:
+        description: "Enter the target Endor Labs API"
+        required: true
+        type: choice
+        default: https://api.endorlabs.com
+        options:
+        - https://api.staging.endorlabs.com
+        - https://api.endorlabs.com
+      tenant_name:
+        description: "Enter your Endor Labs namespace?"
+        required: true
+        type: string
+
 jobs:
   release:
     name: Build and Sign
@@ -11,6 +23,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,10 +33,10 @@ jobs:
 
       
       - name: Endor Labs Scan
-        uses: endorlabs/github-action@containers
+        uses: endorlabs/github-action@main
         with:
-          namespace: "demo"
-          api: https://api.staging.endorlabs.com
+          namespace: ${{ github.event.inputs.tenant_name }}
+          api: ${{ github.event.inputs.api }}
           scan_summary_output_type: "table"
           pr: "false"
           enable_github_action_token: "true"
@@ -32,7 +45,7 @@ jobs:
           scan_git_logs: "true"
 
       - name: Create container
-        run: docker build -t jscott932/app-java-demo:latest .
+        run: docker build -t app-java-demo:local .
 
       - name: Get Image Digest to Sign
         run: |
