@@ -12,6 +12,7 @@ RUN mvn dependency:copy-dependencies
 # Use a smaller image for deployment
 FROM openjdk:17-slim
 
+LABEL org.opencontainers.image.base.name="openjdk:17-slim"
 # Set the working directory inside the container
 WORKDIR /app
 
