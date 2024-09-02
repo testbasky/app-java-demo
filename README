@@ -1,0 +1,15 @@
+# Local Minikube setup
+
+## Prerequisites
+
+- Install JDK.
+- Install Maven.
+- Install docker.
+- Install kubectl.
+- Install minikube.
+
+## Steps to build and deploy
+
+1. Start minikube cluster by running minikube start.
+2. Run `./build.sh` to build the project and docker image.
+3. Run `./deploy.sh` to deploy the built image in locally running minikube cluster under default namespace.

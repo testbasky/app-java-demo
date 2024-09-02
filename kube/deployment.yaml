@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-java-demo
+  labels:
+    app: app-java-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-java-demo
+  template:
+    metadata:
+      labels:
+        app: app-java-demo
+    spec:
+      containers:
+      - name: app-java-demo
+        image: app-java-demo:local
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
