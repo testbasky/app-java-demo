@@ -16,7 +16,9 @@ spec:
     spec:
       containers:
       - name: app-java-demo
-        image: app-java-demo:local
-        imagePullPolicy: Never
+        image: hackytackytimesawacky/app-java-demo
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
+      imagePullSecrets:
+          - name: regcred
