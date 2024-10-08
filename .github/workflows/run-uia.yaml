@@ -1,0 +1,51 @@
+
+name: Run UIA manually
+
+on:
+  workflow_dispatch:
+    inputs:
+      api:
+        description: "Enter the target Endor Labs API"
+        required: true
+        type: choice
+        default: https://api.endorlabs.com
+        options:
+        - https://api.staging.endorlabs.com
+        - https://api.endorlabs.com
+      tenant_name:
+        description: "Enter your Endor Labs namespace?"
+        required: true
+        type: string
+
+jobs:
+  release:
+    name: Run UIA Manually
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+
+      - name: Run UIA Manually
+        run: |
+          NUMBER_OF_PROJECTS=$(endorctl api list -n ${{ github.event.inputs.tenant_name }}  --api=${{ github.event.inputs.api }} -r Project --count | jq -r '.count_response.count')
+          echo "The number of projects to update is $NUMBER_OF_PROJECTS"
+    
+          # Loop through the projects and update them
+          i=0  # Start indexing from 0
+          while [ $i -lt "$NUMBER_OF_PROJECTS" ]
+          do
+              echo "Processing project $i"
+              UUID_TO_UPDATE=$(endorctl api list -r Project -n ${{ github.event.inputs.tenant_name }}  --api=${{ github.event.inputs.api }} | jq -r ".list.objects[$i].uuid")
+          
+              if [ -z "$UUID_TO_UPDATE" ]; then
+                  echo "No UUID found for index $i, skipping."
+                  i=$((i+1))
+                  continue
+              fi
+          
+              echo "Updating project with UUID $UUID_TO_UPDATE"
+              endorctl recommend dependency-upgrades -n ${{ github.event.inputs.tenant_name }}  --api=${{ github.event.inputs.api }} --security-only --use-cia --persist --project-uuid="$UUID_TO_UPDATE"
+              i=$((i+1))
+          done
