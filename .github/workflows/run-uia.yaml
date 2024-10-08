@@ -16,7 +16,6 @@ on:
         description: "Enter your Endor Labs namespace?"
         required: true
         type: string
-
 jobs:
   release:
     name: Run UIA Manually
@@ -24,29 +23,23 @@ jobs:
     permissions:
       id-token: write
       contents: read
-
     steps:
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+    - name: Run UIA Manually
+      run: |
+        set -euo pipefail
+        curl https://api.endorlabs.com/download/endorlabs/v1.6.575/binaries/endorctl_v1.6.575_linux_amd64 -o endorctl
+        echo "6394deb077645e124ba743e30558a12493551496e967eaef932703b8594e312d endorctl" | sha256sum --check
+        chmod +x ./endorctl
+        PROJECT_UUIDS=$(./endorctl api list -r Project --enable-github-action-token=true -n "${{ github.event.inputs.tenant_name }}" --api="${{ github.event.inputs.api }}" | jq -r '.list.objects[].uuid')
+        for UUID in $PROJECT_UUIDS; do
+            if [ -z "$UUID" ]; then
+                echo "No UUID found, skipping."
+                continue
+            fi
+        
+            echo "Updating project with UUID $UUID"
+            ./endorctl recommend dependency-upgrades --enable-github-action-token=true -n "${{ github.event.inputs.tenant_name }}" --api="${{ github.event.inputs.api }}" --security-only --use-cia --persist --project-uuid="$UUID"
+        done
 
-      - name: Run UIA Manually
-        run: |
-          curl https://api.endorlabs.com/download/endorlabs/v1.6.575/binaries/endorctl_v1.6.575_macos_arm64 -o endorctl
-          echo "16b5cb1a239c30a8da01abaeb0df0ed7f703ba89bd1dcb5ce5f070ef97c685eb  endorctl" | shasum -a 256 --check
-          chmod +x ./endorctl
-          NUMBER_OF_PROJECTS=$(endorctl api list --enable-github-action-token=true -n ${{ github.event.inputs.tenant_name }}  --api=${{ github.event.inputs.api }} -r Project --count | jq -r '.count_response.count')
-          echo "The number of projects to update is $NUMBER_OF_PROJECTS"
-          i=0  
-          while [ $i -lt "$NUMBER_OF_PROJECTS" ]
-          do
-              echo "Processing project $i"
-              UUID_TO_UPDATE=$(endorctl api list -r Project --enable-github-action-token=true -n ${{ github.event.inputs.tenant_name }}  --api=${{ github.event.inputs.api }} | jq -r ".list.objects[$i].uuid")
-          
-              if [ -z "$UUID_TO_UPDATE" ]; then
-                  echo "No UUID found for index $i, skipping."
-                  i=$((i+1))
-                  continue
-              fi
-          
-              echo "Updating project with UUID $UUID_TO_UPDATE"
-              endorctl recommend dependency-upgrades --enable-github-action-token=true -n ${{ github.event.inputs.tenant_name }} --api=${{ github.event.inputs.api }} --security-only --use-cia --persist --project-uuid="$UUID_TO_UPDATE"
-              i=$((i+1))
-          done
