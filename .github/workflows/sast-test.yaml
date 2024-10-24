@@ -1,0 +1,45 @@
+name: SAST Scanning Test
+on:
+  workflow_dispatch:
+    inputs:
+      namespace:
+        description: |
+          Enter the namespace . Default: demo
+        required: false
+        type: string
+        default: 'demo'
+      api:
+        description: 'Environment to run the tests on'
+        required: true
+        default: 'https://api.staging.endorlabs.com'
+        type: choice
+        options:
+        - https://api.staging.endorlabs.com
+        - https://api.endorlabs.com
+
+jobs:
+  scan-repo:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Setup namespace Environment Variables
+        run: |
+            NAMESPACE=$(jq -r '.inputs.tenant_name' $GITHUB_EVENT_PATH)
+            echo "::add-mask::$NAMESPACE"
+            echo NAMESPACE=$NAMESPACE >> $GITHUB_ENV
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Endor Labs SAST Code Scan
+        uses: endorlabs/github-action@cd1341287bbe6dba282277a8ae4dc4847008a660
+        with:
+            namespace: ${{ inputs.namespace }}
+            api: ${{ inputs.api }}
+            scan_summary_output_type: "table"
+            pr: "false"
+            enable_github_action_token: "true"
+            scan_sast: "true"
+            scan_git_logs: "true"
