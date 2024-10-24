@@ -33,6 +33,20 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x" # Ensure you use a valid Python version
+
+      - name: Install Semgrep
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep
+
+      - name: Semgrep version
+        run: |
+          semgrep --version
+
       - name: Endor Labs SAST Code Scan
         uses: endorlabs/github-action@cd1341287bbe6dba282277a8ae4dc4847008a660
         with:
