@@ -56,3 +56,4 @@ jobs:
             pr: "false"
             enable_github_action_token: "true"
             scan_sast: "true"
+            scan_dependencies: "false"
