@@ -48,7 +48,7 @@ jobs:
           semgrep --version
 
       - name: Endor Labs SAST Code Scan
-        uses: endorlabs/github-action@cd1341287bbe6dba282277a8ae4dc4847008a660
+        uses: endorlabs/github-action@main
         with:
             namespace: ${{ inputs.namespace }}
             api: ${{ inputs.api }}
