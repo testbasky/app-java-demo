@@ -5,9 +5,10 @@ spec:
     language_parameters:
       java:
         reviewers:
+          - codebasky
           - nztzsh
         assignees:
           - nztzsh
         labels:
           - java
-          - automated-pr
+          - endorlabs
