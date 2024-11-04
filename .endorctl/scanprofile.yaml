@@ -6,7 +6,6 @@ spec:
       java:
         reviewers:
           - codebasky
-          - nztzsh
         assignees:
           - nztzsh
         labels:
