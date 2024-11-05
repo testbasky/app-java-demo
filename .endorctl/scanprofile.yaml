@@ -34,7 +34,7 @@ spec:
 kind: RemediationParameters
 spec:
   automated_pr_parameters:
-    max_open_prs: 2
+    max_open_prs: 10
     language_parameters:
       go:
         reviewers:
